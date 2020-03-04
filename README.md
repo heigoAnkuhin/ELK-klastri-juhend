@@ -1,5 +1,5 @@
 # ELK-klastri-juhend
-Juhend Elasticsearchi, Logstashi, Kibana ja Winlogbeati ülesseadmiseks Debian 10 baasil
+Juhend Debian 10 baasil kahesõlmelise Elasticsearchi klastri ülesseadmiseks koos Logstashi ja Kibanaga ning Winlogbeati ja Syslogi sisenditega.
 Vaja läheb vähemalt kolme Debiani (virtuaal)masinat, mis tuleks enne ära uuendada. Soovituslik on paigaldada ka SSH server.
 
 Kasutamine:
