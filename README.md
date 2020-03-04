@@ -7,4 +7,6 @@ Kasutamine:
 2) Järgida juhendit samm-sammult kirja pandud järjekorras
 
 
-- Koostanud Heigo Ankuhin, Pärnu Mai Kool
+
+Koostanud: 
+- Heigo Ankuhin, Pärnu Mai Kool
