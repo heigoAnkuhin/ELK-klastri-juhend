@@ -186,19 +186,13 @@ NB! VAJALIK ENNE PAIGADLADA Java 8 VÕI Java 11.
 		
 8. Teise Elasticsearchi node'i lisamine:
 	- Kuna üks node jääb suurema koormuse puhul võimekuselt väikseks, siis oleks mõistlik klastrisse veel juurde lisada vähemalt üks node
-	- Uus node peaks olema eraldi uue masina peal ehk siis peaks läbi tegema kõik sammud, mis esimese Elasticu node'i puhulgi
+	- Uus node peaks olema eraldi uue masina peal ehk siis peaks läbi tegema kõik sammud, mis esimese Elasticu node'i puhulgi, kuid enne konfiguratsioonifaili muutmist on soovitatav uut node'i mitte käivitada - muidu loob ta eraldi uue klastri ning peab hakkama selle andmeid kustutama..
 AMETLIK DOKUMENTATSIOON - https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html
 	8.1 Elasticu public key importimine ja nende repositoorumi lisamine ning paigaldus:
 		1) 'wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -'
 		2) 'sudo apt-get install apt-transport-https'
-		3) 'echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list'
+		3) 'echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-			    7.x.list'
 		4) 'sudo apt-get update && sudo apt-get install elasticsearch'
-	8.2 Elasticsearchi serviisi systemd's sisse lülitamine, et näiteks reboodi käigus automaatselt uuesti käivituks:
-		1) 'sudo /bin/systemctl daemon-reload'
-		2) 'sudo /bin/systemctl enable elasticsearch.service'
-	8.3 Elasticu start/stop -
-		1) 'sudo systemctl start elasticsearch.service'
-		2) 'sudo systemctl stop elasticsearch.service'
 	8.4 Debiani masinas Elasticsearchi pordi avamine - kuna esimene masin jookseb juba pordil 9200, siis peame valima uue pordi (näiteks 9201):
 		1) 'iptables -I INPUT -p tcp --dport 9201 --syn -j ACCEPT'
 		2) 'service iptables save'
@@ -217,14 +211,17 @@ AMETLIK DOKUMENTATSIOON - https://www.elastic.co/guide/en/elasticsearch/referenc
 				'node.data:true'
 				'node.ingest:false'
 		3) Restart Elasticule - 'sudo systemctl restart elasticsearch' ja kontroll, kas tuleb edukalt üles -> 'sudo service elasticsearch status'
-	8.6 Kibana konfiguratsioonis uue Elasticu node'i lisamine:
+	8.6 Elasticsearchi serviisi systemd's sisse lülitamine, et näiteks reboodi käigus automaatselt uuesti käivituks:
+		1) 'sudo /bin/systemctl daemon-reload'
+		2) 'sudo /bin/systemctl enable elasticsearch.service'
+	8.7 Kibana konfiguratsioonis uue Elasticu node'i lisamine:
 		1) Kibana masinas 'sudo nano /etc/kibana/kibana.yml'
 		2) 'elasticsearch.hosts' - lisada juurde uue node'i URL ehk kokku oleks komaga eraldatud nüüd kaks URL-i - näiteks 'elasticsearch.hosts: ["http://elk-srv:9200", "http://elk-node2:9201"]'
 		3) Restart Kibanale - 'sudo systemctl restart kibana'
-	8.7 Logstashi konfiguratsioonis uue Elasticsearchi URL-i lisamine output'i alla:
+	8.8 Logstashi konfiguratsioonis uue Elasticsearchi URL-i lisamine output'i alla:
 		1) Masinas, kus asub Logstash - 'sudo nano /etc/logstash/conf.d/logstash.conf'
-		2) 'output'-i all lisada 'hosts' väljale juurde komaga eraldatult uue node'i URL - näiteks ' hosts => ["http://elk-srv:9200","http://elk-node2:9201"] '
-		3) Restart Logstashile - 'sudo systemctl restart logstash' ja kontroll, kas saab mõlema masinaga ühendust -> 'sudo service logstash status'
+		2) 'output'-i all lisada 'hosts' väljale juurde komaga eraldatult uue node'i URL - näiteks ' hosts => ["http://elk-			    srv:9200","http://elk-node2:9201"] '
+		3) Restart Logstashile - 'sudo systemctl restart logstash' ja kontroll, kas saab mõlema masinaga ühendust -> 'sudo 			   service logstash status'
 	8.8 Uue Elasticu node'i mälu lukustamine - ehk seitsmenda punkti sammude kordamine ka uuel masinal
 
 9. Syslogide saatmine Elasticsearchi koos geoip väljaga:
