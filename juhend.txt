@@ -12,8 +12,8 @@ AMETLIK DOKUMENTATSIOON - https://www.elastic.co/guide/en/elasticsearch/referenc
 		1) 'sudo systemctl start elasticsearch.service'
 		2) 'sudo systemctl stop elasticsearch.service'
 	1.4 Debiani masinas Elasticsearchi pordi (9200) avamine:
-		1) 'iptables -I INPUT -p tcp --dport 9200 --syn -j ACCEPT'
-		2) 'service iptables save'
+		1) 'sudo iptables -I INPUT -p tcp --dport 9200 --syn -j ACCEPT'
+		2) 'sudo iptables save'
 	1.5 Elasticsearchi konfigureerimine:
 		1) 'sudo nano /etc/elasticsearch/elasticsearch.yml'
 		2) Võiks konfiguratsioonifailis ära muuta:
